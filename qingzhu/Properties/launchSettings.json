@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "qingzhu (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "qingzhu (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
