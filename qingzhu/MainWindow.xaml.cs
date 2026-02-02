@@ -21,11 +21,8 @@ namespace qingzhu
             Title = "工业协议模拟器";
             ExtendsContentIntoTitleBar = true;
             
-            // Set the NavigationView as title bar - this prevents double-click fullscreen on content area
-            SetTitleBar(NavView);
-            
-            // Disable pointer events on the title bar to prevent accidental interactions
-            NavView.IsTitleBarAutoPaddingEnabled = false;
+            // 仅将自定义标题栏区域设置为拖拽区域，而不是整个NavigationView
+            SetTitleBar(AppTitleBar);
             
             // Navigate to home page by default
             ContentFrame.Navigate(typeof(HomePage));
