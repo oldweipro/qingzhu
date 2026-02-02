@@ -4,16 +4,99 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:qingzhu"
+    xmlns:viewmodels="using:qingzhu.ViewModels"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Title="qingzhu">
+    mc:Ignorable="d">
 
     <Window.SystemBackdrop>
         <MicaBackdrop />
     </Window.SystemBackdrop>
 
     <Grid>
-
+        <NavigationView
+            x:Name="NavView"
+            IsBackButtonVisible="Collapsed"
+            IsSettingsVisible="True"
+            PaneDisplayMode="Left"
+            Header="工业协议模拟器"
+            SelectionChanged="NavView_SelectionChanged"
+            IsTitleBarAutoPaddingEnabled="False"
+            IsTabStop="False">
+            
+            <NavigationView.MenuItems>
+                <NavigationViewItem Icon="Home" Content="首页" Tag="Home" IsTabStop="False" />
+                <NavigationViewItemSeparator />
+                
+                <NavigationViewItemHeader Content="串口协议" />
+                <NavigationViewItem Tag="SerialPort" IsTabStop="False">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE839;" />
+                    </NavigationViewItem.Icon>
+                    <NavigationViewItem.Content>
+                        <TextBlock Text="串口模拟器" />
+                    </NavigationViewItem.Content>
+                </NavigationViewItem>
+                
+                <NavigationViewItemHeader Content="工业协议" />
+                <NavigationViewItem Tag="Modbus" IsTabStop="False">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE968;" />
+                    </NavigationViewItem.Icon>
+                    <NavigationViewItem.Content>
+                        <TextBlock Text="Modbus" />
+                    </NavigationViewItem.Content>
+                </NavigationViewItem>
+                
+                <NavigationViewItem Tag="ModbusTCP" IsTabStop="False">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE704;" />
+                    </NavigationViewItem.Icon>
+                    <NavigationViewItem.Content>
+                        <TextBlock Text="Modbus TCP" />
+                    </NavigationViewItem.Content>
+                </NavigationViewItem>
+                
+                <NavigationViewItemHeader Content="网络协议" />
+                <NavigationViewItem Tag="TCPIP" IsTabStop="False">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE8A8;" />
+                    </NavigationViewItem.Icon>
+                    <NavigationViewItem.Content>
+                        <TextBlock Text="TCP/IP" />
+                    </NavigationViewItem.Content>
+                </NavigationViewItem>
+                
+                <NavigationViewItem Tag="HTTP" IsTabStop="False">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE774;" />
+                    </NavigationViewItem.Icon>
+                    <NavigationViewItem.Content>
+                        <TextBlock Text="HTTP/REST" />
+                    </NavigationViewItem.Content>
+                </NavigationViewItem>
+                
+                <NavigationViewItem Tag="MQTT" IsTabStop="False">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE753;" />
+                    </NavigationViewItem.Icon>
+                    <NavigationViewItem.Content>
+                        <TextBlock Text="MQTT" />
+                    </NavigationViewItem.Content>
+                </NavigationViewItem>
+                
+                <NavigationViewItemHeader Content="其他协议" />
+                <NavigationViewItem Tag="OPC" IsTabStop="False">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE950;" />
+                    </NavigationViewItem.Icon>
+                    <NavigationViewItem.Content>
+                        <TextBlock Text="OPC UA" />
+                    </NavigationViewItem.Content>
+                </NavigationViewItem>
+            </NavigationView.MenuItems>
+            
+            <Frame x:Name="ContentFrame" IsTabStop="False" />
+        </NavigationView>
     </Grid>
 </Window>

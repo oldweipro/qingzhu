@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="qingzhu.Views.ModbusPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:qingzhu.Views"
+    xmlns:viewmodels="using:qingzhu.ViewModels"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Page.DataContext>
+        <viewmodels:ModbusViewModel />
+    </Page.DataContext>
+
+    <Grid Padding="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <StackPanel Grid.Row="0" Spacing="8" Margin="0,0,0,24">
+            <TextBlock Text="Modbus RTU 模拟器" Style="{StaticResource TitleTextBlockStyle}" />
+            <TextBlock 
+                Text="模拟 Modbus RTU 从站设备，支持标准功能码"
+                Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+        </StackPanel>
+
+        <!-- Main Content -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="320" />
+                <ColumnDefinition Width="16" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Left Panel - Settings -->
+            <Border 
+                Grid.Column="0"
+                Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                BorderThickness="1"
+                CornerRadius="8"
+                Padding="16">
+                <ScrollViewer>
+                    <StackPanel Spacing="16">
+                        <TextBlock Text="Modbus 配置" Style="{StaticResource SubtitleTextBlockStyle}" />
+
+                        <!-- Slave ID -->
+                        <StackPanel Spacing="8">
+                            <TextBlock Text="从站地址 (Slave ID)" FontWeight="SemiBold" />
+                            <NumberBox 
+                                x:Name="SlaveIdNumberBox"
+                                Value="1"
+                                Minimum="1"
+                                Maximum="247"
+                                SpinButtonPlacementMode="Inline"
+                                HorizontalAlignment="Stretch" />
+                        </StackPanel>
+
+                        <!-- Serial Port Settings -->
+                        <TextBlock Text="串口设置" Style="{StaticResource BodyStrongTextBlockStyle}" Margin="0,8,0,0" />
+                        
+                        <StackPanel Spacing="8">
+                            <TextBlock Text="端口" FontWeight="SemiBold" />
+                            <ComboBox 
+                                x:Name="PortComboBox"
+                                PlaceholderText="选择端口"
+                                HorizontalAlignment="Stretch">
+                                <ComboBoxItem Content="COM1" />
+                                <ComboBoxItem Content="COM2" />
+                                <ComboBoxItem Content="COM3" />
+                                <ComboBoxItem Content="COM4" />
+                            </ComboBox>
+                        </StackPanel>
+
+                        <StackPanel Spacing="8">
+                            <TextBlock Text="波特率" FontWeight="SemiBold" />
+                            <ComboBox 
+                                x:Name="BaudRateComboBox"
+                                SelectedIndex="1"
+                                HorizontalAlignment="Stretch">
+                                <ComboBoxItem Content="4800" />
+                                <ComboBoxItem Content="9600" />
+                                <ComboBoxItem Content="19200" />
+                                <ComboBoxItem Content="115200" />
+                            </ComboBox>
+                        </StackPanel>
+
+                        <StackPanel Spacing="8">
+                            <TextBlock Text="数据位" FontWeight="SemiBold" />
+                            <ComboBox 
+                                SelectedIndex="0"
+                                HorizontalAlignment="Stretch">
+                                <ComboBoxItem Content="8" />
+                                <ComboBoxItem Content="7" />
+                            </ComboBox>
+                        </StackPanel>
+
+                        <StackPanel Spacing="8">
+                            <TextBlock Text="校验位" FontWeight="SemiBold" />
+                            <ComboBox 
+                                SelectedIndex="0"
+                                HorizontalAlignment="Stretch">
+                                <ComboBoxItem Content="None" />
+                                <ComboBoxItem Content="Even" />
+                                <ComboBoxItem Content="Odd" />
+                            </ComboBox>
+                        </StackPanel>
+
+                        <StackPanel Spacing="8">
+                            <TextBlock Text="停止位" FontWeight="SemiBold" />
+                            <ComboBox 
+                                SelectedIndex="0"
+                                HorizontalAlignment="Stretch">
+                                <ComboBoxItem Content="1" />
+                                <ComboBoxItem Content="2" />
+                            </ComboBox>
+                        </StackPanel>
+
+                        <!-- Control Buttons -->
+                        <StackPanel Spacing="8" Margin="0,16,0,0">
+                            <Button 
+                                Content="启动从站" 
+                                Style="{StaticResource AccentButtonStyle}"
+                                HorizontalAlignment="Stretch" />
+                            <Button 
+                                Content="停止从站" 
+                                HorizontalAlignment="Stretch"
+                                IsEnabled="False" />
+                        </StackPanel>
+
+                        <!-- Status -->
+                        <Border 
+                            Background="{ThemeResource LayerFillColorDefaultBrush}"
+                            CornerRadius="4"
+                            Padding="12"
+                            Margin="0,16,0,0">
+                            <StackPanel Spacing="8">
+                                <TextBlock Text="运行状态" FontWeight="SemiBold" />
+                                <StackPanel Spacing="4">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock 
+                                            Text="状态:" 
+                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                                        <TextBlock 
+                                            Grid.Column="1"
+                                            Text="已停止" 
+                                            HorizontalAlignment="Right"
+                                            Foreground="{ThemeResource SystemFillColorCriticalBrush}" />
+                                    </Grid>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock 
+                                            Text="请求次数:" 
+                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                                        <TextBlock 
+                                            Grid.Column="1"
+                                            Text="0" 
+                                            HorizontalAlignment="Right" />
+                                    </Grid>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock 
+                                            Text="错误次数:" 
+                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                                        <TextBlock 
+                                            Grid.Column="1"
+                                            Text="0" 
+                                            HorizontalAlignment="Right" />
+                                    </Grid>
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+
+            <!-- Right Panel - Data Registers -->
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="16" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <!-- Tab Control for different register types -->
+                <Border 
+                    Grid.Row="0"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="8"
+                    Padding="16">
+                    <StackPanel Spacing="12">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock 
+                                Text="数据寄存器" 
+                                Style="{StaticResource SubtitleTextBlockStyle}"
+                                VerticalAlignment="Center" />
+                            <StackPanel 
+                                Grid.Column="1" 
+                                Orientation="Horizontal" 
+                                Spacing="8">
+                                <Button Content="随机填充" />
+                                <Button Content="清零" />
+                                <Button Content="导入" />
+                                <Button Content="导出" />
+                            </StackPanel>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <!-- Register View -->
+                <Border 
+                    Grid.Row="2"
+                    Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                    BorderThickness="1"
+                    CornerRadius="8">
+                    <Pivot>
+                        <!-- Coils (00001-09999) -->
+                        <PivotItem Header="线圈 (Coils)">
+                            <Grid Padding="16">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <TextBlock 
+                                    Text="功能码: 01 (Read Coils), 05 (Write Single Coil), 15 (Write Multiple Coils)"
+                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                    Margin="0,0,0,12" />
+                                <ScrollViewer Grid.Row="1">
+                                    <ItemsControl>
+                                        <!-- Sample Data -->
+                                        <Border 
+                                            Background="{ThemeResource LayerFillColorDefaultBrush}"
+                                            Padding="12"
+                                            Margin="0,0,0,8"
+                                            CornerRadius="4">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="100" />
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Text="00001" FontFamily="Consolas" VerticalAlignment="Center" />
+                                                <ToggleSwitch Grid.Column="2" />
+                                            </Grid>
+                                        </Border>
+                                        <TextBlock 
+                                            Text="地址范围: 00001 - 09999"
+                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                            HorizontalAlignment="Center"
+                                            Margin="0,24" />
+                                    </ItemsControl>
+                                </ScrollViewer>
+                            </Grid>
+                        </PivotItem>
+
+                        <!-- Discrete Inputs (10001-19999) -->
+                        <PivotItem Header="离散输入 (Discrete Inputs)">
+                            <Grid Padding="16">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <TextBlock 
+                                    Text="功能码: 02 (Read Discrete Inputs)"
+                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                    Margin="0,0,0,12" />
+                                <ScrollViewer Grid.Row="1">
+                                    <TextBlock 
+                                        Text="地址范围: 10001 - 19999"
+                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center" />
+                                </ScrollViewer>
+                            </Grid>
+                        </PivotItem>
+
+                        <!-- Holding Registers (40001-49999) -->
+                        <PivotItem Header="保持寄存器 (Holding Registers)">
+                            <Grid Padding="16">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <TextBlock 
+                                    Text="功能码: 03 (Read Holding Registers), 06 (Write Single Register), 16 (Write Multiple Registers)"
+                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                    TextWrapping="Wrap"
+                                    Margin="0,0,0,12" />
+                                <ScrollViewer Grid.Row="1">
+                                    <ItemsControl>
+                                        <!-- Sample Data -->
+                                        <Border 
+                                            Background="{ThemeResource LayerFillColorDefaultBrush}"
+                                            Padding="12"
+                                            Margin="0,0,0,8"
+                                            CornerRadius="4">
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="100" />
+                                                    <ColumnDefinition Width="*" />
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Text="40001" FontFamily="Consolas" VerticalAlignment="Center" />
+                                                <NumberBox 
+                                                    Grid.Column="1"
+                                                    Value="0"
+                                                    SpinButtonPlacementMode="Inline"
+                                                    HorizontalAlignment="Right"
+                                                    MinWidth="200" />
+                                            </Grid>
+                                        </Border>
+                                        <TextBlock 
+                                            Text="地址范围: 40001 - 49999"
+                                            Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                            HorizontalAlignment="Center"
+                                            Margin="0,24" />
+                                    </ItemsControl>
+                                </ScrollViewer>
+                            </Grid>
+                        </PivotItem>
+
+                        <!-- Input Registers (30001-39999) -->
+                        <PivotItem Header="输入寄存器 (Input Registers)">
+                            <Grid Padding="16">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <TextBlock 
+                                    Text="功能码: 04 (Read Input Registers)"
+                                    Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                    Margin="0,0,0,12" />
+                                <ScrollViewer Grid.Row="1">
+                                    <TextBlock 
+                                        Text="地址范围: 30001 - 39999"
+                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center" />
+                                </ScrollViewer>
+                            </Grid>
+                        </PivotItem>
+                    </Pivot>
+                </Border>
+            </Grid>
+        </Grid>
+    </Grid>
+</Page>

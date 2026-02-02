@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="qingzhu.Views.SettingsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:qingzhu.Views"
+    xmlns:viewmodels="using:qingzhu.ViewModels"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Page.DataContext>
+        <viewmodels:SettingsViewModel />
+    </Page.DataContext>
+
+    <ScrollViewer>
+        <Grid Padding="24" MaxWidth="1000">
+            <StackPanel Spacing="24">
+                <!-- Header -->
+                <StackPanel Spacing="8">
+                    <TextBlock Text="设置" Style="{StaticResource TitleTextBlockStyle}" />
+                    <TextBlock 
+                        Text="配置应用程序的外观和行为"
+                        Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                </StackPanel>
+
+                <!-- Appearance -->
+                <StackPanel Spacing="16">
+                    <TextBlock Text="外观" Style="{StaticResource SubtitleTextBlockStyle}" />
+                    
+                    <Border 
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1"
+                        CornerRadius="8"
+                        Padding="16">
+                        <StackPanel Spacing="16">
+                            <!-- Theme -->
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Spacing="4">
+                                    <TextBlock Text="应用主题" FontWeight="SemiBold" />
+                                    <TextBlock 
+                                        Text="选择亮色、暗色或跟随系统"
+                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                        Style="{StaticResource CaptionTextBlockStyle}" />
+                                </StackPanel>
+                                <ComboBox 
+                                    Grid.Column="1"
+                                    SelectedIndex="2"
+                                    MinWidth="150">
+                                    <ComboBoxItem Content="亮色" />
+                                    <ComboBoxItem Content="暗色" />
+                                    <ComboBoxItem Content="跟随系统" />
+                                </ComboBox>
+                            </Grid>
+
+                            <Border 
+                                Height="1"
+                                Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
+
+                            <!-- Backdrop -->
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Spacing="4">
+                                    <TextBlock Text="背景材质" FontWeight="SemiBold" />
+                                    <TextBlock 
+                                        Text="选择窗口背景效果"
+                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                        Style="{StaticResource CaptionTextBlockStyle}" />
+                                </StackPanel>
+                                <ComboBox 
+                                    Grid.Column="1"
+                                    SelectedIndex="0"
+                                    MinWidth="150">
+                                    <ComboBoxItem Content="Mica" />
+                                    <ComboBoxItem Content="Acrylic" />
+                                    <ComboBoxItem Content="无" />
+                                </ComboBox>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+
+                <!-- General Settings -->
+                <StackPanel Spacing="16">
+                    <TextBlock Text="常规" Style="{StaticResource SubtitleTextBlockStyle}" />
+                    
+                    <Border 
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1"
+                        CornerRadius="8"
+                        Padding="16">
+                        <StackPanel Spacing="16">
+                            <!-- Auto Start -->
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Spacing="4">
+                                    <TextBlock Text="开机自启动" FontWeight="SemiBold" />
+                                    <TextBlock 
+                                        Text="Windows 启动时自动运行此应用"
+                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                        Style="{StaticResource CaptionTextBlockStyle}" />
+                                </StackPanel>
+                                <ToggleSwitch Grid.Column="1" />
+                            </Grid>
+
+                            <Border 
+                                Height="1"
+                                Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
+
+                            <!-- Minimize to Tray -->
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Spacing="4">
+                                    <TextBlock Text="最小化到系统托盘" FontWeight="SemiBold" />
+                                    <TextBlock 
+                                        Text="关闭窗口时最小化到系统托盘"
+                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                        Style="{StaticResource CaptionTextBlockStyle}" />
+                                </StackPanel>
+                                <ToggleSwitch Grid.Column="1" />
+                            </Grid>
+
+                            <Border 
+                                Height="1"
+                                Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
+
+                            <!-- Language -->
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Spacing="4">
+                                    <TextBlock Text="语言" FontWeight="SemiBold" />
+                                    <TextBlock 
+                                        Text="选择应用界面语言"
+                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                        Style="{StaticResource CaptionTextBlockStyle}" />
+                                </StackPanel>
+                                <ComboBox 
+                                    Grid.Column="1"
+                                    SelectedIndex="0"
+                                    MinWidth="150">
+                                    <ComboBoxItem Content="简体中文" />
+                                    <ComboBoxItem Content="English" />
+                                </ComboBox>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+
+                <!-- Data & Logging -->
+                <StackPanel Spacing="16">
+                    <TextBlock Text="数据与日志" Style="{StaticResource SubtitleTextBlockStyle}" />
+                    
+                    <Border 
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1"
+                        CornerRadius="8"
+                        Padding="16">
+                        <StackPanel Spacing="16">
+                            <!-- Log Level -->
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Spacing="4">
+                                    <TextBlock Text="日志级别" FontWeight="SemiBold" />
+                                    <TextBlock 
+                                        Text="设置日志记录的详细程度"
+                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                        Style="{StaticResource CaptionTextBlockStyle}" />
+                                </StackPanel>
+                                <ComboBox 
+                                    Grid.Column="1"
+                                    SelectedIndex="1"
+                                    MinWidth="150">
+                                    <ComboBoxItem Content="详细 (Trace)" />
+                                    <ComboBoxItem Content="调试 (Debug)" />
+                                    <ComboBoxItem Content="信息 (Info)" />
+                                    <ComboBoxItem Content="警告 (Warning)" />
+                                    <ComboBoxItem Content="错误 (Error)" />
+                                </ComboBox>
+                            </Grid>
+
+                            <Border 
+                                Height="1"
+                                Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
+
+                            <!-- Auto Save -->
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Spacing="4">
+                                    <TextBlock Text="自动保存配置" FontWeight="SemiBold" />
+                                    <TextBlock 
+                                        Text="退出时自动保存所有配置"
+                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                        Style="{StaticResource CaptionTextBlockStyle}" />
+                                </StackPanel>
+                                <ToggleSwitch Grid.Column="1" IsOn="True" />
+                            </Grid>
+
+                            <Border 
+                                Height="1"
+                                Background="{ThemeResource DividerStrokeColorDefaultBrush}" />
+
+                            <!-- Data Directory -->
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <StackPanel Spacing="4">
+                                    <TextBlock Text="数据目录" FontWeight="SemiBold" />
+                                    <TextBlock 
+                                        Text="C:\Users\...\AppData\Local\qingzhu"
+                                        Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                        Style="{StaticResource CaptionTextBlockStyle}"
+                                        TextTrimming="CharacterEllipsis" />
+                                </StackPanel>
+                                <Button 
+                                    Grid.Column="1"
+                                    Content="打开文件夹" />
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+
+                <!-- About -->
+                <StackPanel Spacing="16">
+                    <TextBlock Text="关于" Style="{StaticResource SubtitleTextBlockStyle}" />
+                    
+                    <Border 
+                        Background="{ThemeResource CardBackgroundFillColorDefaultBrush}"
+                        BorderBrush="{ThemeResource CardStrokeColorDefaultBrush}"
+                        BorderThickness="1"
+                        CornerRadius="8"
+                        Padding="16">
+                        <StackPanel Spacing="12">
+                            <TextBlock Text="工业协议模拟器" FontSize="20" FontWeight="SemiBold" />
+                            <TextBlock 
+                                Text="版本 1.0.0"
+                                Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
+                            <TextBlock 
+                                Text="支持多种工业通信协议的模拟与测试工具"
+                                Foreground="{ThemeResource TextFillColorSecondaryBrush}"
+                                TextWrapping="Wrap" />
+                            <StackPanel Orientation="Horizontal" Spacing="8" Margin="0,8,0,0">
+                                <HyperlinkButton Content="检查更新" />
+                                <HyperlinkButton Content="开源许可" />
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
+</Page>

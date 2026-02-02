@@ -1,31 +1,72 @@
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
+using qingzhu.Views;
+using qingzhu.ViewModels;
 
 namespace qingzhu
 {
-    /// <summary>
-    /// An empty window that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class MainWindow : Window
     {
+        public MainViewModel ViewModel { get; }
+
         public MainWindow()
         {
             InitializeComponent();
+            
+            ViewModel = new MainViewModel();
+            
+            Title = "工业协议模拟器";
+            ExtendsContentIntoTitleBar = true;
+            
+            // Set the NavigationView as title bar - this prevents double-click fullscreen on content area
+            SetTitleBar(NavView);
+            
+            // Disable pointer events on the title bar to prevent accidental interactions
+            NavView.IsTitleBarAutoPaddingEnabled = false;
+            
+            // Navigate to home page by default
+            ContentFrame.Navigate(typeof(HomePage));
+            NavView.SelectedItem = NavView.MenuItems.OfType<NavigationViewItem>().First();
+        }
+
+        private void NavView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
+        {
+            if (args.IsSettingsSelected)
+            {
+                ContentFrame.Navigate(typeof(SettingsPage));
+            }
+            else if (args.SelectedItemContainer != null)
+            {
+                var navItemTag = args.SelectedItemContainer.Tag?.ToString();
+                if (navItemTag != null)
+                {
+                    NavigateToPage(navItemTag);
+                }
+            }
+        }
+
+        private void NavigateToPage(string navItemTag)
+        {
+            Type? pageType = navItemTag switch
+            {
+                "Home" => typeof(HomePage),
+                "SerialPort" => typeof(SerialPortPage),
+                "Modbus" => typeof(ModbusPage),
+                "ModbusTCP" => typeof(ModbusTcpPage),
+                "TCPIP" => typeof(TcpIpPage),
+                "HTTP" => typeof(HttpPage),
+                "MQTT" => typeof(MqttPage),
+                "OPC" => typeof(OpcUaPage),
+                _ => null
+            };
+
+            if (pageType != null && ContentFrame.CurrentSourcePageType != pageType)
+            {
+                ContentFrame.Navigate(pageType);
+            }
         }
     }
 }
