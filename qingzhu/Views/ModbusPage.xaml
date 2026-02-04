@@ -4,14 +4,14 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:qingzhu.Views"
-    xmlns:viewmodels="using:qingzhu.ViewModels"
+    xmlns:converters="using:qingzhu.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Page.DataContext>
-        <viewmodels:ModbusViewModel />
-    </Page.DataContext>
+    <Page.Resources>
+        <converters:BoolNegationConverter x:Key="BoolNegationConverter" />
+    </Page.Resources>
 
     <Grid Padding="24">
         <Grid.RowDefinitions>
@@ -52,11 +52,12 @@
                             <TextBlock Text="从站地址 (Slave ID)" FontWeight="SemiBold" />
                             <NumberBox 
                                 x:Name="SlaveIdNumberBox"
-                                Value="1"
+                                Value="{x:Bind ViewModel.SlaveId, Mode=TwoWay}"
                                 Minimum="1"
                                 Maximum="247"
                                 SpinButtonPlacementMode="Inline"
-                                HorizontalAlignment="Stretch" />
+                                HorizontalAlignment="Stretch"
+                                IsEnabled="{x:Bind ViewModel.IsRunning, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}" />
                         </StackPanel>
 
                         <!-- Serial Port Settings -->
@@ -66,57 +67,52 @@
                             <TextBlock Text="端口" FontWeight="SemiBold" />
                             <ComboBox 
                                 x:Name="PortComboBox"
+                                ItemsSource="{x:Bind ViewModel.AvailablePorts}"
+                                SelectedItem="{x:Bind ViewModel.SelectedPort, Mode=TwoWay}"
                                 PlaceholderText="选择端口"
-                                HorizontalAlignment="Stretch">
-                                <ComboBoxItem Content="COM1" />
-                                <ComboBoxItem Content="COM2" />
-                                <ComboBoxItem Content="COM3" />
-                                <ComboBoxItem Content="COM4" />
-                            </ComboBox>
+                                HorizontalAlignment="Stretch"
+                                IsEnabled="{x:Bind ViewModel.IsRunning, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}" />
                         </StackPanel>
 
                         <StackPanel Spacing="8">
                             <TextBlock Text="波特率" FontWeight="SemiBold" />
                             <ComboBox 
                                 x:Name="BaudRateComboBox"
+                                ItemsSource="{x:Bind ViewModel.BaudRates}"
+                                SelectedItem="{x:Bind ViewModel.BaudRate, Mode=TwoWay}"
                                 SelectedIndex="1"
-                                HorizontalAlignment="Stretch">
-                                <ComboBoxItem Content="4800" />
-                                <ComboBoxItem Content="9600" />
-                                <ComboBoxItem Content="19200" />
-                                <ComboBoxItem Content="115200" />
-                            </ComboBox>
+                                HorizontalAlignment="Stretch"
+                                IsEnabled="{x:Bind ViewModel.IsRunning, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}" />
                         </StackPanel>
 
                         <StackPanel Spacing="8">
                             <TextBlock Text="数据位" FontWeight="SemiBold" />
                             <ComboBox 
+                                ItemsSource="{x:Bind ViewModel.DataBitsOptions}"
+                                SelectedItem="{x:Bind ViewModel.DataBits, Mode=TwoWay}"
                                 SelectedIndex="0"
-                                HorizontalAlignment="Stretch">
-                                <ComboBoxItem Content="8" />
-                                <ComboBoxItem Content="7" />
-                            </ComboBox>
+                                HorizontalAlignment="Stretch"
+                                IsEnabled="{x:Bind ViewModel.IsRunning, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}" />
                         </StackPanel>
 
                         <StackPanel Spacing="8">
                             <TextBlock Text="校验位" FontWeight="SemiBold" />
                             <ComboBox 
+                                ItemsSource="{x:Bind ViewModel.ParityOptions}"
+                                SelectedItem="{x:Bind ViewModel.Parity, Mode=TwoWay}"
                                 SelectedIndex="0"
-                                HorizontalAlignment="Stretch">
-                                <ComboBoxItem Content="None" />
-                                <ComboBoxItem Content="Even" />
-                                <ComboBoxItem Content="Odd" />
-                            </ComboBox>
+                                HorizontalAlignment="Stretch"
+                                IsEnabled="{x:Bind ViewModel.IsRunning, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}" />
                         </StackPanel>
 
                         <StackPanel Spacing="8">
                             <TextBlock Text="停止位" FontWeight="SemiBold" />
                             <ComboBox 
+                                ItemsSource="{x:Bind ViewModel.StopBitsOptions}"
+                                SelectedItem="{x:Bind ViewModel.StopBits, Mode=TwoWay}"
                                 SelectedIndex="0"
-                                HorizontalAlignment="Stretch">
-                                <ComboBoxItem Content="1" />
-                                <ComboBoxItem Content="2" />
-                            </ComboBox>
+                                HorizontalAlignment="Stretch"
+                                IsEnabled="{x:Bind ViewModel.IsRunning, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}" />
                         </StackPanel>
 
                         <!-- Control Buttons -->
@@ -124,11 +120,14 @@
                             <Button 
                                 Content="启动从站" 
                                 Style="{StaticResource AccentButtonStyle}"
-                                HorizontalAlignment="Stretch" />
+                                HorizontalAlignment="Stretch"
+                                Command="{x:Bind ViewModel.StartSlaveCommand}"
+                                IsEnabled="{x:Bind ViewModel.IsRunning, Mode=OneWay, Converter={StaticResource BoolNegationConverter}}" />
                             <Button 
                                 Content="停止从站" 
                                 HorizontalAlignment="Stretch"
-                                IsEnabled="False" />
+                                Command="{x:Bind ViewModel.StopSlaveCommand}"
+                                IsEnabled="{x:Bind ViewModel.IsRunning, Mode=OneWay}" />
                         </StackPanel>
 
                         <!-- Status -->
@@ -150,9 +149,8 @@
                                             Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
                                         <TextBlock 
                                             Grid.Column="1"
-                                            Text="已停止" 
-                                            HorizontalAlignment="Right"
-                                            Foreground="{ThemeResource SystemFillColorCriticalBrush}" />
+                                            Text="{x:Bind ViewModel.Status, Mode=OneWay}" 
+                                            HorizontalAlignment="Right" />
                                     </Grid>
                                     <Grid>
                                         <Grid.ColumnDefinitions>
@@ -164,7 +162,7 @@
                                             Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
                                         <TextBlock 
                                             Grid.Column="1"
-                                            Text="0" 
+                                            Text="{x:Bind ViewModel.RequestCount, Mode=OneWay}" 
                                             HorizontalAlignment="Right" />
                                     </Grid>
                                     <Grid>
@@ -177,7 +175,7 @@
                                             Foreground="{ThemeResource TextFillColorSecondaryBrush}" />
                                         <TextBlock 
                                             Grid.Column="1"
-                                            Text="0" 
+                                            Text="{x:Bind ViewModel.ErrorCount, Mode=OneWay}" 
                                             HorizontalAlignment="Right" />
                                     </Grid>
                                 </StackPanel>
@@ -217,10 +215,18 @@
                                 Grid.Column="1" 
                                 Orientation="Horizontal" 
                                 Spacing="8">
-                                <Button Content="随机填充" />
-                                <Button Content="清零" />
-                                <Button Content="导入" />
-                                <Button Content="导出" />
+                                <Button 
+                                    Content="随机填充" 
+                                    Command="{x:Bind ViewModel.RandomFillCommand}" />
+                                <Button 
+                                    Content="清零" 
+                                    Command="{x:Bind ViewModel.ClearRegistersCommand}" />
+                                <Button 
+                                    Content="导入" 
+                                    Command="{x:Bind ViewModel.ImportDataCommand}" />
+                                <Button 
+                                    Content="导出" 
+                                    Command="{x:Bind ViewModel.ExportDataCommand}" />
                             </StackPanel>
                         </Grid>
                     </StackPanel>
