@@ -1,3 +1,7 @@
+<p align="center">
+  <a href="https://qingzhu.oldwei.com"><img src="qingzhu/Assets/logo.png" alt="Exy mascot" width="248" /><br /></a>
+</p>
+
 # 青竹工业协议模拟器 (Qingzhu Industrial Protocol Simulator)
 
 一款基于 WinUI 3 开发的现代化工业协议模拟与测试工具，支持多种工业通信协议的模拟、测试和调试。
