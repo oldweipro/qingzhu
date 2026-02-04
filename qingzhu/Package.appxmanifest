@@ -9,14 +9,14 @@
 
   <Identity
     Name="81277745-e02d-4a28-940e-4949e04446db"
-    Publisher="CN=925120320"
+    Publisher="CN=oldwei"
     Version="1.0.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="81277745-e02d-4a28-940e-4949e04446db" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>qingzhu</DisplayName>
-    <PublisherDisplayName>925120320</PublisherDisplayName>
+    <DisplayName>青竹</DisplayName>
+    <PublisherDisplayName>oldwei</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 
@@ -34,8 +34,8 @@
       Executable="$targetnametoken$.exe"
       EntryPoint="$targetentrypoint$">
       <uap:VisualElements
-        DisplayName="qingzhu"
-        Description="qingzhu"
+        DisplayName="青竹"
+        Description="青竹工业协议模拟调试工具"
         BackgroundColor="transparent"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png">
